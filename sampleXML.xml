@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+	<Head>
+		<Username>1d30ab517dd70cdd21c0649a0c4255fd</Username>
+		<Password>mT7C0UxRPeVn</Password>
+		<RequestType>HotelSearch</RequestType>
+	</Head>
+	<Body>
+		<CityIds>
+			<CityId>117976</CityId>
+		</CityIds>
+		<CheckInDate>2013-12-18</CheckInDate>
+		<CheckOutDate>2013-12-20</CheckOutDate>
+		<Rooms>
+			<Room>
+				<NumAdults>2</NumAdults>
+			</Room>
+			<Room>
+				<NumAdults>1</NumAdults>
+				<Children>
+					<ChildAge>4</ChildAge>
+					<ChildAge>6</ChildAge>
+				</Children>
+			</Room>
+		</Rooms>
+		<Nationality>FR</Nationality>
+		<Currency>GBP</Currency>
+		<AvailableOnly>0</AvailableOnly>
+	</Body>
+</Request>
