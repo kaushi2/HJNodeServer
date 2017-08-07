@@ -47,6 +47,12 @@ app.get("/api/Search", function(req,response) {
         
     });
 });
+app.get("/api/GetCountries", function(req,response) {
+
+});
+app.get("/api/GetCities", function(req,response) {
+
+});
 
 app.listen(3000);
 console.log("Node Server listening on 3000");
@@ -107,5 +113,3 @@ function performRequest(endpoint, method, requestType, body, success) {
     req.write(dataString);
     req.end();
 }
-
-
