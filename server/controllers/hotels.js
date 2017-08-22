@@ -1,18 +1,21 @@
 Hotel = require('../models/').Hotel;
-Facility = require('../models/').Facilities;
+Facility = require('../models/').Facility;
 
 module.exports= {
   //Get a list of all Hotels using model.findAll()
   index(req, res) {
     Hotel.findAll({
-      include: Facility
+      where:{
+        CityId: 2
+      },
+      limit: 10,
     })
-      .then(function (hotels) {
-        res.status(200).json(hotels);
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    .then(function (hotels) {
+      res.status(200).json(hotels);
+    })
+    .catch(function (error) {
+      res.status(500).json(error);
+    });
   },
 
   //Get an Hotel by the unique ID using model.findById()
@@ -27,6 +30,11 @@ module.exports= {
       res.status(500).json(error);
     });
   },
+
+  //Get By City
+  showByCity(req, res) {
+    Hotel.findAll({where()})
+  }
 
   //Create a new Hotel using model.create()
   create(req, res) {

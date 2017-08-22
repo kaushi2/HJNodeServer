@@ -32,7 +32,7 @@ app.get('/', function(req, res) {
     res.send('Welcome to Node with Sequelize !');
 });
 
-app.get('/hotels', hotels.index);
+app.get('/hotels', hotels.show);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function(err) {
