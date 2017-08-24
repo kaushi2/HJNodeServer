@@ -1,40 +1,50 @@
 Hotel = require('../models/').Hotel;
 Facility = require('../models/').Facility;
+City = require('../models/').City;
 
-module.exports= {
+module.exports = {
   //Get a list of all Hotels using model.findAll()
   index(req, res) {
     Hotel.findAll({
-      where:{
+      where: {
         CityId: 2
       },
       limit: 10,
     })
-    .then(function (hotels) {
-      res.status(200).json(hotels);
-    })
-    .catch(function (error) {
-      res.status(500).json(error);
-    });
+      .then(function (hotels) {
+        res.status(200).json(hotels);
+      })
+      .catch(function (error) {
+        res.status(500).json(error);
+      });
   },
 
   //Get an Hotel by the unique ID using model.findById()
   show(req, res) {
-    Hotel.findById(req.params.id, {
-      include: Facility
-    })
-    .then(function (hotel) {
-      res.status(200).json(hotel);
-    })
-    .catch(function (error){
+    // Get the City Id from Name
+    City.findAll({
+      where: { CityName: req.params.city, CountryCode: 'AU' },
+      attributes: ['CityId'],
+      limit: 1
+    }).then(City => {      
+      Hotel.findAll({
+        where: { CityId: City[0].CityId }
+      }).then(hotel => {
+        console.log(hotel);
+        res.status(200).json(hotel);
+      }).catch(error => {
+        res.status(500).json(error);
+      });
+    }).catch(error => {
       res.status(500).json(error);
     });
+
   },
 
   //Get By City
   showByCity(req, res) {
-    Hotel.findAll({where()})
-  }
+    //Hotel.findAll({where()})
+  },
 
   //Create a new Hotel using model.create()
   create(req, res) {
@@ -42,7 +52,7 @@ module.exports= {
       .then(function (newHotel) {
         res.status(200).json(newHotel);
       })
-      .catch(function (error){
+      .catch(function (error) {
         res.status(500).json(error);
       });
   },
@@ -54,12 +64,12 @@ module.exports= {
         id: req.params.id
       }
     })
-    .then(function (updatedRecords) {
-      res.status(200).json(updatedRecords);
-    })
-    .catch(function (error){
-      res.status(500).json(error);
-    });
+      .then(function (updatedRecords) {
+        res.status(200).json(updatedRecords);
+      })
+      .catch(function (error) {
+        res.status(500).json(error);
+      });
   },
 
   //Delete an existing Hotel by the unique ID using model.destroy()
@@ -69,11 +79,11 @@ module.exports= {
         id: req.params.id
       }
     })
-    .then(function (deletedRecords) {
-      res.status(200).json(deletedRecords);
-    })
-    .catch(function (error){
-      res.status(500).json(error);
-    });
+      .then(function (deletedRecords) {
+        res.status(200).json(deletedRecords);
+      })
+      .catch(function (error) {
+        res.status(500).json(error);
+      });
   }
 };
