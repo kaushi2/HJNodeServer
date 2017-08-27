@@ -21,6 +21,7 @@ module.exports = {
 
   //Get an Hotel by the unique ID using model.findById()
   show(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");    
     // Get the City Id from Name
     City.findAll({
       where: { CityName: req.params.city, CountryCode: 'AU' },
@@ -28,9 +29,9 @@ module.exports = {
       limit: 1
     }).then(City => {      
       Hotel.findAll({
-        where: { CityId: City[0].CityId }
+        where: { CityId: City[0].CityId },
+        limit: 10
       }).then(hotel => {
-        console.log(hotel);
         res.status(200).json(hotel);
       }).catch(error => {
         res.status(500).json(error);
