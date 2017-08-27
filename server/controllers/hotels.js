@@ -6,11 +6,11 @@ module.exports = {
   //Get a list of all Hotels using model.findAll()
   index(req, res) {
     Hotel.findAll({
-      where: {
-        CityId: 2
-      },
-      limit: 10,
-    })
+        where: {
+          CityId: 2
+        },
+        limit: 10,
+      })
       .then(function (hotels) {
         res.status(200).json(hotels);
       })
@@ -21,19 +21,43 @@ module.exports = {
 
   //Get an Hotel by the unique ID using model.findById()
   show(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");    
+    res.header("Access-Control-Allow-Origin", "*");
     // Get the City Id from Name
     City.findAll({
-      where: { CityName: req.params.city, CountryCode: 'AU' },
+      where: {
+        CityName: req.params.city,
+        CountryCode: 'AU'
+      },
       attributes: ['CityId'],
       limit: 1
-    }).then(City => {      
-      Hotel.findAll({
-        where: { CityId: City[0].CityId },
-        limit: 10
-      }).then(hotel => {
-        res.status(200).json(hotel);
-      }).catch(error => {
+    }).then(City => {
+      let limit = 10;
+      let offset = 0;
+      Hotel.findAndCountAll({
+        where: {
+          CityId: City[0].CityId
+        }
+      })
+      .then((data) => { // findAndCountAll
+        let page = req.params.page;  // Page Number from the route
+        let pages = Math.ceil(data.count / limit);
+        offset = limit * (page - 1);
+        console.log('TotalRows: ' + data.count + '  TotalPages: ' + '  PageNo: ' + page + '  Offset: ' + offset);
+        Hotel.findAll({
+          where: {
+            CityId: City[0].CityId
+          },
+          limit: limit || 10,
+          offset: offset || 0,
+          sort: {
+            StarRating: 1
+          }
+        }).then(hotel => { // findAll
+          res.status(200).json(hotel);
+        }).catch(error => { // findAll
+          res.status(500).json(error);
+        });
+      }).catch(error => { // findAndCountAll
         res.status(500).json(error);
       });
     }).catch(error => {
@@ -61,10 +85,10 @@ module.exports = {
   //Edit an existing Hotel details using model.update()
   update(req, res) {
     Hotel.update(req.body, {
-      where: {
-        id: req.params.id
-      }
-    })
+        where: {
+          id: req.params.id
+        }
+      })
       .then(function (updatedRecords) {
         res.status(200).json(updatedRecords);
       })
@@ -76,10 +100,10 @@ module.exports = {
   //Delete an existing Hotel by the unique ID using model.destroy()
   delete(req, res) {
     Hotel.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
+        where: {
+          id: req.params.id
+        }
+      })
       .then(function (deletedRecords) {
         res.status(200).json(deletedRecords);
       })
