@@ -22,15 +22,17 @@ models.sequelize
   });
 
 // Sync Database
-// models.sequelize.sync().then(function() {
-//     console.log('Nice! Database looks fine')
-// }).catch(function(err) {
-//     console.log(err, "Something went wrong with the Database Update!")
-// });
+models.sequelize.sync().then(function() {
+    console.log('Nice! Database looks fine')
+}).catch(function(err) {
+    console.log(err, "Something went wrong with the Database Update!")
+});
 
 app.get('/', function(req, res) {
     res.send('Welcome to Node with Sequelize !');
 });
+
+// app.get('/hotels/:city/:page', hotels.index); // Works
 
 app.get('/hotels/:city/:page', hotels.show); // Works
 

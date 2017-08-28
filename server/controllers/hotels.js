@@ -1,13 +1,15 @@
-Hotel = require('../models/').Hotel;
-Facility = require('../models/').Facility;
-City = require('../models/').City;
+Hotels = require('../models/').hotels;
+Facilities = require('../models/').facilities;
+Descriptions = require('../models/').descriptions;
+Images = require('../models/').images;
+City = require('../models/').cities;
 
 module.exports = {
   //Get a list of all Hotels using model.findAll()
   index(req, res) {
     Hotel.findAll({
         where: {
-          CityId: 2
+          CityId: 668815
         },
         limit: 10,
       })
@@ -42,8 +44,9 @@ module.exports = {
         let page = req.params.page;  // Page Number from the route
         let pages = Math.ceil(data.count / limit);
         offset = limit * (page - 1);
-        console.log('TotalRows: ' + data.count + '  TotalPages: ' + '  PageNo: ' + page + '  Offset: ' + offset);
+        console.log('TotalRows: ' + data.count + '  TotalPages: ' + pages + '  PageNo: ' + page + '  Offset: ' + offset);
         Hotel.findAll({
+          include: Facilities,
           where: {
             CityId: City[0].CityId
           },

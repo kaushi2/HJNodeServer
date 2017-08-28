@@ -1,18 +1,19 @@
+
 module.exports = function(sequelize, Sequelize) {
-    var Hotel = sequelize.define('Hotel', {
+    var Hotel = sequelize.define('hotels', {
         HotelId: {
             primaryKey: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER(11)
         },
         CityId: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.INTEGER(11),
             notEmpty: true
         },
         HotelName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING(255)
         },
         StarRating: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER(11)
         },
         Latitude: {
             type: Sequelize.DOUBLE
@@ -21,10 +22,10 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.DOUBLE
         },
         Address: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING(255)
         },
         Location: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING(255)
         },
         PhoneNumber: {
             type: Sequelize.DOUBLE
@@ -33,9 +34,16 @@ module.exports = function(sequelize, Sequelize) {
     }, {
         classMethods: {
             associate: function(models) {
-                Hotel.hasMany(models.Facility, {
+                Hotel.hasMany(models.Facilities, {
                     onDelete: 'cascade'
                 });
+                Hotel.hasMany(models.Images, {
+                    onDelete: 'cascade'
+                });
+                Hotel.hasMany(models.Descriptions, {
+                    onDelete: 'cascade'
+                });
+                Hotel.belongsTo(models.Cities);
             }
         }
     });
