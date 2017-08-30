@@ -1,6 +1,7 @@
 
 module.exports = function(sequelize, Sequelize) {
-    var Facility = sequelize.define('facilities', {
+
+    var Facilities = sequelize.define('facilities', {
         HotelId: {
             primaryKey: true,
             type: Sequelize.INTEGER(11)
@@ -10,14 +11,12 @@ module.exports = function(sequelize, Sequelize) {
         },
         FacilityName: {
             type: Sequelize.STRING(200),
-        }
-    }, {
-        classMethods: {
-            associate: function(models) {
-                // define associations here
-                Facility.belongsTo(models.Hotels);
-            }
-        }
+        },
+        // Timestamps
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE,
     });
-    return Facility;
+
+    return Facilities;
+    
 }

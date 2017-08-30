@@ -1,6 +1,6 @@
-
 module.exports = function(sequelize, Sequelize) {
-    var City = sequelize.define('cities', {
+
+    var Cities = sequelize.define('cities', {
         CityId: {
             primaryKey: true,
             type: Sequelize.INTEGER(11)
@@ -13,17 +13,12 @@ module.exports = function(sequelize, Sequelize) {
         },
         CountryCode: {
             type: Sequelize.STRING(2)
-        }
-    }, {
-        classMethods: {
-            associate: function(models) {
-                City.hasMany(models.Hotels, {
-                    onDelete: 'cascade'
-                });
-            }
-        }
+        },
+        // Timestamps
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE,
     });
 
-    return City;
+    return Cities;
 
 }

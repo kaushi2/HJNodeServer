@@ -1,11 +1,13 @@
 
 module.exports = function(sequelize, Sequelize) {
+
     var Hotel = sequelize.define('hotels', {
         HotelId: {
             primaryKey: true,
             type: Sequelize.INTEGER(11)
         },
         CityId: {
+            foreignKey: true,
             type: Sequelize.INTEGER(11),
             notEmpty: true
         },
@@ -30,22 +32,10 @@ module.exports = function(sequelize, Sequelize) {
         PhoneNumber: {
             type: Sequelize.DOUBLE
         },
-        
-    }, {
-        classMethods: {
-            associate: function(models) {
-                Hotel.hasMany(models.Facilities, {
-                    onDelete: 'cascade'
-                });
-                Hotel.hasMany(models.Images, {
-                    onDelete: 'cascade'
-                });
-                Hotel.hasMany(models.Descriptions, {
-                    onDelete: 'cascade'
-                });
-                Hotel.belongsTo(models.Cities);
-            }
-        }
+        // Timestamps
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE,
+
     });
 
     return Hotel;
