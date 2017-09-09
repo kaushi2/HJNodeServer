@@ -2,7 +2,7 @@
 module.exports = function(sequelize, Sequelize) {
     var Images = sequelize.define('images', {
         HotelId: {
-            primaryKey: true,
+            foreignKey: true,
             type: Sequelize.INTEGER(11)
         },
         Image: {

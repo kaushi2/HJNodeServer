@@ -52,38 +52,38 @@ db.Images = require('../models/images.js')(sequelize, Sequelize);
 db.Cities.hasMany(db.Hotels, {
   foreignKey: 'CityId'
 });
-db.Hotels.belongsTo(db.Cities, {
-  // as: 'FK_Hotels_Cities',
-  as: 'cities',
-  foreignKey: 'CityId',
-  constraints: false
-});
+// db.Hotels.belongsTo(db.Cities, {
+//   // as: 'FK_Hotels_Cities',
+//   as: 'cities',
+//   foreignKey: 'CityId',
+//   constraints: false
+// });
 
 db.Hotels.hasMany(db.Facilities, {
   foreignKey: 'HotelId'
 });
-db.Facilities.belongsTo(db.Hotels, {
-  // as: 'FK_Facilities_Hotels',
-  foreignKey: 'HotelId',
-  constraints: false
-});
+// db.Facilities.belongsTo(db.Hotels, {
+//   // as: 'FK_Facilities_Hotels',
+//   foreignKey: 'HotelId',
+//   constraints: false
+// });
 
 db.Hotels.hasMany(db.Images, {
   foreignKey: 'HotelId'
 });
-db.Images.belongsTo(db.Hotels, {
-  // as: 'FK_Images_Hotels',
-  foreignKey: 'HotelId',
-  constraints: false
-});
+// db.Images.belongsTo(db.Hotels, {
+//   // as: 'FK_Images_Hotels',
+//   foreignKey: 'HotelId',
+//   constraints: false
+// });
 
 db.Hotels.hasMany(db.Descriptions, {
   foreignKey: 'HotelId'
 });
-db.Descriptions.belongsTo(db.Hotels, {
-  // as: 'FK_Descriptions_Hotels',
-  foreignKey: 'HotelId',
-  constraints: false
-});
+// db.Descriptions.belongsTo(db.Hotels, {
+//   // as: 'FK_Descriptions_Hotels',
+//   foreignKey: 'HotelId',
+//   constraints: false
+// });
 
 module.exports = db;

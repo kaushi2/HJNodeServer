@@ -1,11 +1,32 @@
-
 var models = require("../models");
+var Sequelize = require('sequelize');
+var env = process.env.NODE_ENV || 'development';
+// var config    = require(__dirname + '/../config/config')[env];
+var config = require(__dirname + '/../config/config')[env];
+
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 module.exports = {
   //Get a list of all Hotels using model.findAll()
   index(req, res) {
+
+    // sequelize.query('SELECT `hotels`.*,`facilities`.`HotelId` AS `facilities.HotelId`,`facilities`.`FacilityType` AS `facilities.FacilityType`, `facilities`.`FacilityName` AS `facilities.FacilityName`, `facilities`.`createdAt` AS `facilities.createdAt`,`facilities`.`updatedAt` AS `facilities.updatedAt` FROM `hotels` AS `hotels`  INNER JOIN `facilities` AS `facilities` ON `hotels`.`HotelId` = `facilities`.`HotelId` WHERE    `hotels`.`CityId` = 668815 LIMIT 0 , 10', {
+    //     // replacements: {
+    //     //   status: ['active', 'inactive']
+    //     // },
+    //     type: sequelize.QueryTypes.SELECT
+    //   }).then(function (hotel) {
+    //     res.status(200).json(hotel);
+    //   })
+    //   .catch(function (error) {
+    //     res.status(500).json(error);
+    //   });
+
     models.Hotels.findAll({
-        include: ['facilities', 'images', 'descriptions'],
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('hotelid')), 'hotelstotal']
+        ],
+        include: ['descriptions'],
         limit: 10
       })
       .then(function (hotel) {
@@ -23,7 +44,7 @@ module.exports = {
     models.Cities.findAll({
       where: {
         CityName: req.params.city,
-        CountryCode: 'AU'
+        CountryCode: req.params.countrycode
       },
       attributes: ['CityId'],
       limit: 1
