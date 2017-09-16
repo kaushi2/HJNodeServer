@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>GetCountries Test Page Using JavaScript</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="http://www.travellanda.com/image/common.css" />
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>GetCountries Test Page Using JavaScript</h1>
+			<div class="box-section">
+				<div style="margin-bottom:5px">Enter parameters below and hit Submit to call the GetCountries method.</div>
+				<form id="form-xml" action="" method="get" onsubmit="return submitForm()">
+					<div style="margin-bottom:5px">
+						<div>
+							<label for="username">Username</label>
+						</div>
+						<div>
+							<input type="text" id="username" name="username" value="" class="text" style="width:250px" />
+						</div>
+					</div>
+					<div style="margin-bottom:5px">
+						<div>
+							<label for="password">Password</label>
+						</div>
+						<div>
+							<input type="text" id="password" name="password" value="" class="text" style="width:250px" />
+						</div>
+					</div>
+					<div style="margin-bottom:5px">
+						<input type="submit" name="submit" value="Submit" class="button" />
+					</div>
+				</form>
+				<div style="margin-bottom:5px">
+					<div>
+						<label>Request XML</label>
+					</div>
+					<div>
+						<textarea id="xml-request" name="xml-request" cols="" rows="" readonly="readonly" class="textarea" style="width:600px;height:300px"></textarea>
+					</div>
+				</div>
+				<div>
+					<div>
+						<label>Response XML</label>
+					</div>
+					<div>
+						<textarea id="xml-response" name="xml-response" cols="" rows="" readonly="readonly" class="textarea" style="width:600px;height:300px"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+function submitForm() {
+	var reqXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Request><Head><Username>" + document.getElementById("username").value + "</Username><Password>" + document.getElementById("password").value + "</Password><RequestType>GetCountries</RequestType></Head><Body/></Request>";
+	document.getElementById("xml-request").value = reqXML;
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("xml-response").value = xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("POST", "http://xmldemo.travellanda.com/xmlv1", true);
+	xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xmlhttp.send("xml=" + reqXML);
+	return false;
+}
+		</script>
+	</body>
+</html>
