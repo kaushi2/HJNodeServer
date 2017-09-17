@@ -26,6 +26,7 @@ var header =
 module.exports = {
   //Get a list of all Hotels using model.findAll()
   findHotelsByCityId(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
     // Get the City Id from Name
 	console.log(req.params.checkindate);
     models.Cities.findAll({

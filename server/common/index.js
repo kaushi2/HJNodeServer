@@ -1,7 +1,10 @@
 var http = require("http");
 var express = require("express");
 var qs = require("querystring");
+//var xml2js = require('xml2js');
 var parseString = require('xml2js').parseString;
+
+//var parser = new xml2js.Parser();
 
 var host = "xmldemo.travellanda.com";
 var port = null;
@@ -53,11 +56,11 @@ module.exports = {
 			});
 
 			res.on('end', function() {
-				parseString(responseString, {explicitArray: false}, function (err, result) {
+				parseString(responseString, {explicitArray: false, mergeAttrs: true}, function (err, result) {
 					//console.dir(JSON.stringify(result));
-					success(JSON.stringify(result));
+					success(result.Response.Body.Hotels.Hotel);
 				});
-				//success(responseObject);
+				//success(responseString);
 			});
 		});
 

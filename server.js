@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
     res.send('Welcome to Node !');
 });
 app.get('/hotels/:countrycode/:city/:page', hotels.show); // From Sequelise
-app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults', api.findHotelsByCityId); // From API
+app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren', api.findHotelsByCityId); // From API
 
 
 app.set('port', process.env.PORT || 3000);
