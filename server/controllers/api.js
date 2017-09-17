@@ -27,7 +27,7 @@ module.exports = {
   //Get a list of all Hotels using model.findAll()
   findHotelsByCityId(req, res) {
     // Get the City Id from Name
-	console.log(req.params.CheckInDate);
+	console.log(req.params.checkindate);
     models.Cities.findAll({
       where: {
         CityName: req.params.city,
@@ -36,9 +36,9 @@ module.exports = {
       attributes: ['CityId'],
       limit: 1
     }).then(City => {
-		var CheckInDate = dateFormat(req.params.CheckInDate, "yyyy-mm-dd");
-		var CheckOutDate = dateFormat(req.params.CheckOutDate, "yyyy-mm-dd");
-		var NumOfAdults = req.params.NumOfAdults;
+		var CheckInDate = dateFormat(req.params.checkindate, "yyyy-mm-dd");
+		var CheckOutDate = dateFormat(req.params.checkoutdate, "yyyy-mm-dd");
+		var NumOfAdults = req.params.numofadults;
 		var HotelSearchBody = 
 			'		<CityIds>\n\t\t\t' +
 			'			<CityId>' + City[0].CityId + '</CityId>\n\t\t' +
@@ -66,13 +66,13 @@ module.exports = {
 
 		helpers.performRequest('', 'POST', "HotelSearch", header, HotelSearchBody, function(data) {
 			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
+			res.status(200).json(data);
 			//response.writeHead(200, {'Content-Type': 'application/json'});
 			//response.write(data);
-			//res.status(200).json(data)
 			//response.end();
 		});
       
-	}).then(err => {
+	}).catch(err => {
       res.status(500).json(err);
 	});
   },

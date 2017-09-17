@@ -53,7 +53,6 @@ module.exports = {
 			});
 
 			res.on('end', function() {
-				console.log(responseString);
 				parseString(responseString, {explicitArray: false}, function (err, result) {
 					//console.dir(JSON.stringify(result));
 					success(JSON.stringify(result));
@@ -64,5 +63,5 @@ module.exports = {
 
 		req.write(dataString);
 		req.end();
-	}  
+	}
 };
