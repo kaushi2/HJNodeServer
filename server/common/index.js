@@ -58,7 +58,12 @@ module.exports = {
 			res.on('end', function() {
 				parseString(responseString, {explicitArray: false, mergeAttrs: true}, function (err, result) {
 					//console.dir(JSON.stringify(result));
-					success(result.Response.Body.Hotels.Hotel);
+					if(requestType == 'HotelSearch') {
+						success(result.Response.Body.Hotels.Hotel);
+					}
+					if(requestType == 'GetHotelDetails') {
+						success(result.Response.Body.Hotels.Hotel);
+					}
 				});
 				//success(responseString);
 			});

@@ -79,9 +79,25 @@ module.exports = {
   },
 
   //Get an Hotels by the unique ID using model.findById()
-  findHotelsByHotelId(req, res) {
+  findHotelByHotelId(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
-    // Get the City Id from Name
+	console.log(req.params.hotelid);
+	var Body = 
+			'<HotelIds>' +
+				'<HotelId>' + req.params.hotelid + '</HotelId>' +
+			'</HotelIds>';
+			
+	header = header.replace("REQUESTTYPE", "GetHotelDetails");
+	header = header.replace("USERNAME", userName);
+	header = header.replace("PASSWORD", password);
+
+	helpers.performRequest('', 'POST', "GetHotelDetails", header, Body, function(data) {
+		//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
+		res.status(200).json(data);
+		//response.writeHead(200, {'Content-Type': 'application/json'});
+		//response.write(data);
+		//response.end();
+	});
 	
   }
 };

@@ -35,6 +35,7 @@ app.get('/', function(req, res) {
 });
 app.get('/hotels/:countrycode/:city/:page', hotels.show); // From Sequelise
 app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren', api.findHotelsByCityId); // From API
+app.get('/api/:hotelid', api.findHotelByHotelId); // From Sequelise
 
 
 app.set('port', process.env.PORT || 3000);
