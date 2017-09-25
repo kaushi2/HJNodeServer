@@ -9,10 +9,38 @@ var commonHelpers = require("../common/commonHelpers");
 var Sequelize = require('sequelize');
 var env = process.env.NODE_ENV || 'development';
 var config = require(__dirname + '/../config/config')[env];
+var _ = require('Lodash');
 
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 var app = express();
+
+var sendDataWhenReady = function (hotelDetailArray, hotelRoomsArray, res){
+	if (hotelDetailArray == null || hotelRoomsArray == null){
+		console.log("one of them was null");
+		return;
+	}
+
+	var hotel = _.find(hotelRoomsArray, { HotelId: hotelDetailArray.HotelId });
+	hotelDetailArray.Options =hotel.Options;
+	
+	res.status(200).json(hotelDetailArray);
+	/*
+	var hotel;
+	for (var i = 0, len = hotelRoomsArray.length; i < len; i++) {
+		if (hotelRoomsArray[i].HotelId === hotelDetailArray.HotelId){
+			hotel = hotelRoomsArray[i];
+			break;
+		}
+	}
+	hotelDetailArray.Options =hotel.Options;
+	*/
+	/*
+	var mergedList = _.map(hotelDetailArray, function(item){
+		return _.extend(item, _.find(hotelRoomsArray, { HotelId: item.HotelId }));
+	});
+	*/
+};
 
 module.exports = {
 	//Get a list of all Hotels using model.findAll()
@@ -51,14 +79,55 @@ module.exports = {
 		res.header("Access-Control-Allow-Origin", "*");
 		console.log(req.params.hotelid);
 
+		var CityName = req.params.city;
+		var CountryCode = req.params.countrycode;
+		var CheckInDate = dateFormat(req.params.checkindate, "yyyy-mm-dd");
+		var CheckOutDate = dateFormat(req.params.checkoutdate, "yyyy-mm-dd");
+		var NumOfAdults = req.params.numofadults;
+		var NumOfChildren = req.params.numofchildren || 0;
 		var HotelId = req.params.hotelid;
+		
+		var HotelDetailArray;
+		var HotelRoomsArray;
 
 		var Body = commonHelpers.HotelByHotelId(HotelId, "GetHotelDetails");
 		helpers.performRequest('', 'POST', "GetHotelDetails", Body, function (data) {
 			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
-			res.status(200).json(data);
+			//HotelDetailArray = data.replace('"HotelId"', 'HotelId');
+			 //console.log(data);
+			 //console.log(typeof(data));
+			 HotelDetailArray = data;				//res.status(200).json(data);
+			 sendDataWhenReady(HotelDetailArray, HotelRoomsArray, res);
+				//res.status(200).json(data);
 		});
-
+		
+		
+		
+		// Now Get Hotels For CheckIn and CheckOut Date User Has Searched for
+		models.Cities.findAll({
+			where: {
+				CityName: CityName,
+				CountryCode: CountryCode
+			},
+			attributes: ['CityId'],
+			limit: 1
+		}).then(City => { // Try for models.Cities.findAll
+			var  Body1 = commonHelpers.HotelsByCityId(City[0].CityId, CountryCode, CheckInDate, CheckOutDate, NumOfAdults, NumOfChildren, "HotelSearch");
+			helpers.performRequest('', 'POST', "HotelSearch", Body1, function (data1) {
+				//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
+				//HotelRoomsArray = HotelRoomsArray.replace('"HotelId"', 'HotelId');
+				// Merge Results with Hotels Searched For
+				
+				
+				
+			 HotelRoomsArray = data1;				//res.status(200).json(data);
+			 sendDataWhenReady(HotelDetailArray, HotelRoomsArray, res);
+				//console.log(data);
+				//res.status(200).json(data1);
+			});
+		}).catch(err => { // Catch for models.Cities.findAll
+			return err;
+		});
+		
 	}
-
 };

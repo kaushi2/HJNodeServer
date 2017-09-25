@@ -11,7 +11,7 @@ var port = null;
 var path = "/xmlv1";
 var userName = "1d30ab517dd70cdd21c0649a0c4255fd";
 var password = "mT7C0UxRPeVn";
-var header =
+var headerTemplate =
 	'		<Username>USERNAME</Username>' +
 	'		<Password>PASSWORD</Password>' +
 	'		<RequestType>REQUESTTYPE</RequestType>';
@@ -20,15 +20,17 @@ var app = express();
 
 module.exports = {
 	performRequest(endpoint, method, requestType, body, success) {
-		header = header.replace("REQUESTTYPE", requestType);
-		header = header.replace("USERNAME", userName);
-		header = header.replace("PASSWORD", password);
+		//console.log(requestType +  " : request type > BODY " + body);
+		var currentHeader = headerTemplate;
+		currentHeader = currentHeader.replace("REQUESTTYPE", requestType);
+		currentHeader = currentHeader.replace("USERNAME", userName);
+		currentHeader = currentHeader.replace("PASSWORD", password);
 
 		var dataString = qs.stringify({
 			xml: '<?xml version="1.0" encoding="UTF-8"?>\n' +
 				' <Request>' +
 				'	<Head>' +
-				header +
+				currentHeader +
 				'	</Head>' +
 				'	<Body>' +
 				body +
@@ -64,12 +66,14 @@ module.exports = {
 				responseString += data;
 			});
 
+			
 			res.on('end', function () {
 				parseString(responseString, {
 					explicitArray: false,
 					mergeAttrs: true
 				}, function (err, result) {
 					//console.dir(JSON.stringify(result));
+
 					if (requestType == 'HotelSearch') {
 						success(result.Response.Body.Hotels.Hotel);
 					}
