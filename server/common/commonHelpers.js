@@ -4,7 +4,6 @@ var express = require("express");
 module.exports = {
 	HotelsByCityId(cityId, countryCode, checkInDate, checkOutDate, numOfAdults, numOfChildren, requestType) {
 		// Get the City Id from Name
-		console.log(checkInDate);
 		var Body = 
 			'		<CityIds>' +
 			'			<CityId>' + cityId + '</CityId>' +
@@ -24,8 +23,10 @@ module.exports = {
 //			'			</Room>' +
 			'		</Rooms>' +
 			'		<Nationality>AU</Nationality>' +
-//			'		<Currency>GBP</Currency>' +
+			'		<Currency>USD</Currency>' +
 			'		<AvailableOnly>1</AvailableOnly>';
+		console.log(Body);
+			
 		return Body;
 	},
 	HotelByHotelId(hotelId, requestType) {
@@ -33,6 +34,7 @@ module.exports = {
 				'<HotelIds>' +
 					'<HotelId>' + hotelId + '</HotelId>' +
 				'</HotelIds>';
+		console.log(Body);
 		return Body;
 	}
 };

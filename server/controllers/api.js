@@ -20,7 +20,9 @@ var sendDataWhenReady = function (hotelDetailArray, hotelRoomsArray, res){
 		console.log("one of them was null");
 		return;
 	}
-
+	//console.log(hotelDetailArray);
+	//console.log(hotelRoomsArray);
+	
 	var hotel = _.find(hotelRoomsArray, { HotelId: hotelDetailArray.HotelId });
 	hotelDetailArray.Options =hotel.Options;
 	
@@ -77,7 +79,6 @@ module.exports = {
 	//Get an Hotels by the unique ID using model.findById()
 	findHotelByHotelId(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
-		console.log(req.params.hotelid);
 
 		var CityName = req.params.city;
 		var CountryCode = req.params.countrycode;
@@ -86,7 +87,7 @@ module.exports = {
 		var NumOfAdults = req.params.numofadults;
 		var NumOfChildren = req.params.numofchildren || 0;
 		var HotelId = req.params.hotelid;
-		
+
 		var HotelDetailArray;
 		var HotelRoomsArray;
 
@@ -100,9 +101,9 @@ module.exports = {
 			 sendDataWhenReady(HotelDetailArray, HotelRoomsArray, res);
 				//res.status(200).json(data);
 		});
-		
-		
-		
+
+
+
 		// Now Get Hotels For CheckIn and CheckOut Date User Has Searched for
 		models.Cities.findAll({
 			where: {
