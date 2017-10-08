@@ -80,6 +80,9 @@ module.exports = {
 					if (requestType == 'GetHotelDetails') {
 						success(result.Response.Body.Hotels.Hotel);
 					}
+					if (requestType == 'HotelPolicies') {
+						success(result.Response.Body);
+					}
 				});
 				//success(responseString);
 			});

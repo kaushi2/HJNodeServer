@@ -33,9 +33,11 @@ models.sequelize.sync().then(function() {
 app.get('/', function(req, res) {
     res.send('Welcome to Node !');
 });
-app.get('/hotels/:countrycode/:city/:page', hotels.show); // From Sequelise
+app.get('/hotels/:countrycode/:city/:page', hotels.show); // From Db
 app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren', api.findHotelsByCityId); // From API
-app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren/:hotelid', api.findHotelByHotelId); // From Sequelise
+app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren/:hotelid', api.findHotelByHotelId); // From API
+app.get('/api/HotelPolicy/:optionid', api.findPolicyByOptionId); // From API
+
 
 
 app.set('port', process.env.PORT || 3000);

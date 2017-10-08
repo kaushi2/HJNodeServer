@@ -45,7 +45,6 @@ var sendDataWhenReady = function (hotelDetailArray, hotelRoomsArray, res){
 };
 
 module.exports = {
-	//Get a list of all Hotels using model.findAll()
 	findHotelsByCityId(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 
@@ -75,8 +74,6 @@ module.exports = {
 		});
 
 	},
-
-	//Get an Hotels by the unique ID using model.findById()
 	findHotelByHotelId(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 
@@ -93,18 +90,10 @@ module.exports = {
 
 		var Body = commonHelpers.HotelByHotelId(HotelId, "GetHotelDetails");
 		helpers.performRequest('', 'POST', "GetHotelDetails", Body, function (data) {
-			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
-			//HotelDetailArray = data.replace('"HotelId"', 'HotelId');
-			 //console.log(data);
-			 //console.log(typeof(data));
-			 HotelDetailArray = data;				//res.status(200).json(data);
+			 HotelDetailArray = data;
 			 sendDataWhenReady(HotelDetailArray, HotelRoomsArray, res);
-				//res.status(200).json(data);
 		});
 
-
-
-		// Now Get Hotels For CheckIn and CheckOut Date User Has Searched for
 		models.Cities.findAll({
 			where: {
 				CityName: CityName,
@@ -119,16 +108,22 @@ module.exports = {
 				//HotelRoomsArray = HotelRoomsArray.replace('"HotelId"', 'HotelId');
 				// Merge Results with Hotels Searched For
 				
-				
-				
-			 HotelRoomsArray = data1;				//res.status(200).json(data);
-			 sendDataWhenReady(HotelDetailArray, HotelRoomsArray, res);
-				//console.log(data);
-				//res.status(200).json(data1);
+				HotelRoomsArray = data1;
+				sendDataWhenReady(HotelDetailArray, HotelRoomsArray, res);
 			});
 		}).catch(err => { // Catch for models.Cities.findAll
 			return err;
 		});
-		
+	},
+	findPolicyByOptionId(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+
+		var OptionId = req.params.optionid;
+
+		var Body = commonHelpers.HotelPolicyByOptionId(OptionId, "HotelPolicies");
+		helpers.performRequest('', 'POST', "HotelPolicies", Body, function (data) {
+			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
+			res.status(200).json(data);
+		});
 	}
 };

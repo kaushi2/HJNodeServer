@@ -25,7 +25,7 @@ module.exports = {
 			'		<Nationality>AU</Nationality>' +
 			'		<Currency>USD</Currency>' +
 			'		<AvailableOnly>1</AvailableOnly>';
-		console.log(Body);
+		//console.log(Body);
 			
 		return Body;
 	},
@@ -34,7 +34,12 @@ module.exports = {
 				'<HotelIds>' +
 					'<HotelId>' + hotelId + '</HotelId>' +
 				'</HotelIds>';
-		console.log(Body);
+		//console.log(Body);
+		return Body;
+	},
+	HotelPolicyByOptionId(optionId, requestType) {
+		var Body = '<OptionId>' + optionId + '</OptionId>';
+		//console.log(Body);
 		return Body;
 	}
 };
