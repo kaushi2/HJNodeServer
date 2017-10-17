@@ -66,28 +66,41 @@ module.exports = {
 				responseString += data;
 			});
 
-			
-			res.on('end', function () {
-				parseString(responseString, {
-					// explicitArray: false,
-					mergeAttrs: true
-				}, function (err, result) {
-					//console.dir(JSON.stringify(result));
 
-					if (requestType == 'HotelSearch') {
-						success(result.Response.Body.Hotels.Hotel);
-					}
-					if (requestType == 'GetHotelDetails') {
-						success(result.Response.Body.Hotels.Hotel);
-					}
-					if (requestType == 'HotelPolicies') {
-						success(result.Response.Body);
-					}
-					if (requestType == 'HotelBooking') {
-						success(result.Response.Body.HotelBooking);
-					}
-				});
-				//success(responseString);
+			res.on('end', function () {
+				if (requestType == 'HotelPolicies') {
+					parseString(responseString, {
+						explicitArray: true,
+						mergeAttrs: true
+					}, function (err, result) {
+						//console.dir(JSON.stringify(result));
+
+						if (requestType == 'HotelPolicies') {
+							success(result.Response.Body);
+						}
+					});
+				} else {
+					parseString(responseString, {
+						explicitArray: false,
+						mergeAttrs: true
+					}, function (err, result) {
+						//console.dir(JSON.stringify(result));
+
+						if (requestType == 'HotelSearch') {
+							success(result.Response.Body.Hotels.Hotel);
+						}
+						if (requestType == 'GetHotelDetails') {
+							success(result.Response.Body.Hotels.Hotel);
+						}
+						if (requestType == 'HotelPolicies') {
+							success(result.Response.Body);
+						}
+						if (requestType == 'HotelBooking') {
+							success(result.Response.Body.HotelBooking);
+						}
+					});
+					//success(responseString);
+				};
 			});
 		});
 
