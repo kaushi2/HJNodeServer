@@ -13,7 +13,8 @@ var _ = require('Lodash');
 
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
-var app = express();
+var app = express(),
+	bodyParser = require('body-parser');
 
 var sendDataWhenReady = function (hotelDetailArray, hotelRoomsArray, res){
 	if (hotelDetailArray == null || hotelRoomsArray == null){
@@ -115,13 +116,24 @@ module.exports = {
 			return err;
 		});
 	},
-	findPolicyByOptionId(req, res) {
+	getPolicyForOptionId(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 
 		var OptionId = req.params.optionid;
 
 		var Body = commonHelpers.HotelPolicyByOptionId(OptionId, "HotelPolicies");
 		helpers.performRequest('', 'POST', "HotelPolicies", Body, function (data) {
+			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
+			res.status(200).json(data);
+		});
+	},
+	bookForOptionIdRoomId(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+
+		var OptionId = req.params.optionid;
+		
+		var Body = commonHelpers.HotelBookingByOptionIdRoomId(OptionId, req.body, "HotelBooking");
+		helpers.performRequest('', 'POST', "HotelBooking", Body, function (data) {
 			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
 			res.status(200).json(data);
 		});

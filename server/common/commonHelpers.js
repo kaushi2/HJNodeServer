@@ -41,5 +41,27 @@ module.exports = {
 		var Body = '<OptionId>' + optionId + '</OptionId>';
 		//console.log(Body);
 		return Body;
+	},
+	HotelBookingByOptionIdRoomId(optionId, bookingDetails, requestType) {
+		var Body = '<OptionId>' + optionId + '</OptionId>' +
+				   '<YourReference>' + bookingDetails.yourReferenceId + '</YourReference>' +
+					'<Rooms>' +
+					'	<Room>' +
+					'		<RoomId>' + bookingDetails.roomId + '</RoomId>' +
+					'		<PaxNames>' +
+					'			<AdultName>' +
+					'				<Title>' + bookingDetails.title + '</Title>' +
+					'				<FirstName>' + bookingDetails.firstName + '</FirstName>' +
+					'				<LastName>' + bookingDetails.lastName + '</LastName>' +
+					'			</AdultName>' +
+					// '			<ChildName>' +
+					// '				<FirstName>' + bookingDetails + '</FirstName>' +
+					// '				<LastName>' + bookingDetails + '</LastName>' +
+					// '			</ChildName>' +
+					'		</PaxNames>' +
+					'	</Room>' +
+					'</Rooms>';
+		//console.log(Body);
+		return Body;
 	}
 };

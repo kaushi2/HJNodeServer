@@ -69,7 +69,7 @@ module.exports = {
 			
 			res.on('end', function () {
 				parseString(responseString, {
-					explicitArray: false,
+					// explicitArray: false,
 					mergeAttrs: true
 				}, function (err, result) {
 					//console.dir(JSON.stringify(result));
@@ -82,6 +82,9 @@ module.exports = {
 					}
 					if (requestType == 'HotelPolicies') {
 						success(result.Response.Body);
+					}
+					if (requestType == 'HotelBooking') {
+						success(result.Response.Body.HotelBooking);
 					}
 				});
 				//success(responseString);
