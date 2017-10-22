@@ -42,17 +42,17 @@ module.exports = {
 		//console.log(Body);
 		return Body;
 	},
-	HotelBookingByOptionIdRoomId(optionId, bookingDetails, requestType) {
+	HotelBookingByOptionIdRoomId(optionId, roomId, bookingDetails, requestType) {
 		var Body = '<OptionId>' + optionId + '</OptionId>' +
-				   '<YourReference>' + bookingDetails.yourReferenceId + '</YourReference>' +
+				   '<YourReference>' + bookingDetails.YourReference + '</YourReference>' +
 					'<Rooms>' +
 					'	<Room>' +
-					'		<RoomId>' + bookingDetails.roomId + '</RoomId>' +
+					'		<RoomId>' + roomId + '</RoomId>' +
 					'		<PaxNames>' +
 					'			<AdultName>' +
-					'				<Title>' + bookingDetails.title + '</Title>' +
-					'				<FirstName>' + bookingDetails.firstName + '</FirstName>' +
-					'				<LastName>' + bookingDetails.lastName + '</LastName>' +
+					'				<Title>' + bookingDetails.Title + '</Title>' +
+					'				<FirstName>' + bookingDetails.FirstName + '</FirstName>' +
+					'				<LastName>' + bookingDetails.LastName + '</LastName>' +
 					'			</AdultName>' +
 					// '			<ChildName>' +
 					// '				<FirstName>' + bookingDetails + '</FirstName>' +
@@ -61,7 +61,7 @@ module.exports = {
 					'		</PaxNames>' +
 					'	</Room>' +
 					'</Rooms>';
-		//console.log(Body);
+		console.log(Body);
 		return Body;
 	}
 };

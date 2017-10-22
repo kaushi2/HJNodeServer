@@ -131,8 +131,9 @@ module.exports = {
 		res.header("Access-Control-Allow-Origin", "*");
 
 		var OptionId = req.params.optionid;
+		var RoomId = req.params.roomid;
 		
-		var Body = commonHelpers.HotelBookingByOptionIdRoomId(OptionId, req.body, "HotelBooking");
+		var Body = commonHelpers.HotelBookingByOptionIdRoomId(OptionId, RoomId, req.body, "HotelBooking");
 		helpers.performRequest('', 'POST', "HotelBooking", Body, function (data) {
 			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
 			res.status(200).json(data);

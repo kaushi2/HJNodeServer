@@ -85,7 +85,6 @@ module.exports = {
 						mergeAttrs: true
 					}, function (err, result) {
 						//console.dir(JSON.stringify(result));
-
 						if (requestType == 'HotelSearch') {
 							success(result.Response.Body.Hotels.Hotel);
 						}
