@@ -1,7 +1,7 @@
 var express = require('express');
 // var session    = require('express-session')
-var bodyParser = require('body-parser');
 var app = express(),
+	  bodyParser = require('body-parser');
     hotels = require('./server/controllers/hotels'),
     api = require('./server/controllers/api');
 var env = require('dotenv').load();
@@ -32,6 +32,11 @@ models.sequelize.sync().then(function() {
 // ROUTES
 app.get('/', function(req, res) {
     res.send('Welcome to Node !');
+});
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 app.get('/hotels/:countrycode/:city/:page', hotels.show); // From Db
 app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren', api.findHotelsByCityId); // From API

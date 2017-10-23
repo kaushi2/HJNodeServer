@@ -47,7 +47,6 @@ var sendDataWhenReady = function (hotelDetailArray, hotelRoomsArray, res){
 
 module.exports = {
 	findHotelsByCityId(req, res) {
-		res.header("Access-Control-Allow-Origin", "*");
 
 		var CityName = req.params.city;
 		var CountryCode = req.params.countrycode;
@@ -76,7 +75,6 @@ module.exports = {
 
 	},
 	findHotelByHotelId(req, res) {
-		res.header("Access-Control-Allow-Origin", "*");
 
 		var CityName = req.params.city;
 		var CountryCode = req.params.countrycode;
@@ -117,7 +115,6 @@ module.exports = {
 		});
 	},
 	getPolicyForOptionId(req, res) {
-		res.header("Access-Control-Allow-Origin", "*");
 
 		var OptionId = req.params.optionid;
 
@@ -128,7 +125,6 @@ module.exports = {
 		});
 	},
 	bookForOptionIdRoomId(req, res) {
-		res.header("Access-Control-Allow-Origin", "*");
 
 		var OptionId = req.params.optionid;
 		var RoomId = req.params.roomid;
@@ -136,6 +132,7 @@ module.exports = {
 		var Body = commonHelpers.HotelBookingByOptionIdRoomId(OptionId, RoomId, req.body, "HotelBooking");
 		helpers.performRequest('', 'POST', "HotelBooking", Body, function (data) {
 			//console.log('Fetched ' + data.result.paging.total_items + ' Hotels');
+			console.log(data);
 			res.status(200).json(data);
 		});
 	}
