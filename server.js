@@ -1,7 +1,7 @@
 var express = require('express');
 // var session    = require('express-session')
 var app = express(),
-	  bodyParser = require('body-parser');
+	bodyParser = require('body-parser');
     hotels = require('./server/controllers/hotels'),
     api = require('./server/controllers/api');
 var env = require('dotenv').load();
@@ -43,7 +43,7 @@ app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:
 app.get('/api/:countrycode/:city/:page/:checkindate/:checkoutdate/:numofadults/:numofchildren/:hotelid', api.findHotelByHotelId); // From API
 app.get('/api/HotelPolicy/:optionid', api.getPolicyForOptionId); // From API
 app.post('/api/HotelBooking/:optionid/:roomid', api.bookForOptionIdRoomId); // From API
-
+app.get('/hotels/getAllCities/:query', hotels.getAllCities); // From Db
 
 
 app.set('port', process.env.PORT || 3000);

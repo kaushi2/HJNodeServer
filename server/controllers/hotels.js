@@ -85,9 +85,23 @@ module.exports = {
 
   },
 
-  //Get By City
-  showByCity(req, res) {
-    //Hotels.findAll({where()})
+  //Get All Cities
+  getAllCities(req, res) {
+    models.Cities.findAll({
+        attributes: [
+          [models.Sequelize.fn("concat", Sequelize.col("CityName"), ", ", Sequelize.col("CountryCode")), 'cities']
+        ],
+        where: {
+          CityName: {
+            $like: '%' + req.params.query + '%'
+          }
+        }
+      })
+      .then((cities) => {
+        res.status(200).json(cities);
+      }).catch(error => {
+        res.status(500).json(error);
+      });
   },
 
   //Create a new Hotels using model.create()
